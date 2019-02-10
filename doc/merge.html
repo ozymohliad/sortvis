@@ -1,0 +1,48 @@
+<meta charset="UTF-8">
+
+<body>
+	<p style="font-size: 14pt;">Властивості:</p>
+	<ul>
+		<li>Найгірша швидкодія: <em>О(n log n)</em>
+		<li>Найкраща швидкодія: <em>О(n log n)</em>
+		<li>Середня швидкодія: <em>О(n log n)</em>
+		<li>Найгірша просторова складність: <em>О(n)</em> загальна і додаткова</li>
+	</ul>
+
+	<p style="font-size: 14pt;">Код:</p>
+	<tt style="color: blue">
+		<pre>
+<i style="color: green">if</i> len(A) &#60; 2:
+  <i style="color: red">return</i>
+
+m = len(A) // 2
+left = A[:m]
+right = A[m:]
+
+sortMerge(left)
+sortMerge(right)
+
+i = l = r = 0
+llen = len(left)
+rlen = lenr(right)
+<i style="color: green">while</i> llen > l <i style="color: red">and</i> rlen > r:
+  <i style="color: green">if</i> left[l] > right[r]:
+    A[i] = right[r]
+    r += 1
+  <i style="color: green">else</i>:
+    A[i] = left[l]
+    l += 1
+  i += 1
+
+<i style="color: green">while</i> llen > l:
+  A[i] = left[l]
+  l += 1
+  i += 1
+
+<i style="color: green">while</i> rlen > r:
+  A[i] = right[r]
+  r += 1
+  i += 1
+		</pre>
+	</tt>
+</body>

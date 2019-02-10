@@ -1,0 +1,25 @@
+<meta charset="UTF-8">
+
+<body>
+	<p style="font-size: 14pt;">Властивості:</p>
+	<ul>
+		<li>Найгірша швидкодія: <em>О(n<sup> 2</sup>)</em> порівнянь і <em>О(n)</em> обмінів</li>
+		<li>Найкраща швидкодія: <em>О(n<sup> 2</sup>)</em> порівнянь і <em>О(n)</em> обмінів</li>
+		<li>Середня швидкодія: <em>О(n<sup> 2</sup>)</em> порівнянь і <em>О(n)</em> обмінів</li>
+		<li>Найгірша просторова складність: <em>О(n)</em> загальна і <em>O(1)</em> додаткова</li>
+	</ul>
+
+	<p style="font-size: 14pt;">Код:</p>
+	<tt style="color: blue">
+		<pre>
+length = len(A)
+<i style="color: green">for</i> i <i style="color: green">in</i> range(length - 1):
+  min = i
+  <i style="color: green">for</i> j <i style="color: green">in</i> range(i+1, length):
+    <i style="color: green">for</i> A[min] > A[j]:
+      min = j
+  <i style="color: green">for</i> min != i:
+    A[min], A[i] = A[i], A[min]
+		</pre>
+	</tt>
+</body>
