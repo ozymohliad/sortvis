@@ -1,19 +1,19 @@
 <meta charset="UTF-8">
 
 <body>
-	<p style="font-size: 14pt;">Властивості:</p>
+	<p style="font-size: 14pt;">Properties:</p>
 	<ul>
-		<li>Найгірша швидкодія: <em>О(n<sup> 2</sup>)</em> порівнянь і обмінів</li>
-		<li>Найкраща швидкодія: <em>О(n)</em> порівнянь і <em>O(1)</em> обмінів</li>
-		<li>Середня швидкодія: <em>О(n<sup> 2</sup>)</em> порівнянь і обмінів</li>
-		<li>Найгірша просторова складність: <em>О(n)</em> загальна і <em>O(1)</em> додаткова</li>
+		<li>Worst-case performance: <em>О(n<sup> 2</sup>)</em> comparisons and swaps</li>
+		<li>Best-case performance: <em>О(n)</em> comparisons and <em>O(1)</em> swaps</li>
+		<li>Average performance: <em>О(n<sup> 2</sup>)</em> comparisons and swaps</li>
+		<li>Worst-case space complexity: <em>О(n)</em> total and <em>O(1)</em> auxiliary</li>
 	</ul>
 
-	<p style="font-size: 14pt;">Код:</p>
+	<p style="font-size: 14pt;">Code:</p>
 	<tt style="color: blue">
 		<pre>
-length = len(A)
-<i style="color: green;">for</i> i <i style="color: green;">in</i> range(1, length):
+n = len(A)
+<i style="color: green;">for</i> i <i style="color: green;">in</i> range(1, n):
   j = i
   <i style="color: green;">while</i> j > 0 <i style="color: red">and</i> A[j-1] > A[j]:
     A[j], A[j-1] = A[j-1], A[j]

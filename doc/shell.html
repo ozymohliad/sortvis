@@ -1,0 +1,27 @@
+<meta charset="UTF-8">
+
+<body>
+	<p style="font-size: 14pt;">Properties:</p>
+  <ul>
+    <li>Performance heavily depends on the used gap sequence</li>
+    <li>Worst-case performace: <em>О(n<sup> 2</sup>) / O(n log<sup> 2</sup> n) - worst / best known sequence</em></li>
+    <li>Best-case performance: <em>O(n log n)</li>
+    <li>Worst-case space complexity: <em>О(n)</em> total anf <em>O(1)</em> auxiliary</li>
+  </ul>
+
+  <p style="font-size: 14pt;">Code:</p>
+  <tt style="color: blue">
+    <pre>
+n = len(A)
+gaps = genGapSequence(n)
+
+<i style="color: green;">for</i> gap <i style="color: green;">in</i> gaps:
+  <i style="color: green;">for</i> i <i style="color: green;">in</i> range(gap):
+    <i style="color: green;">for</i> j <i style="color: green;">in</i> range(i+gap, n, gap):
+      k = j
+      <i style="color: green;">while</i> k > i <i style="color: red;">and</i> A[k] &#60; A[k-gap]:
+        A[k], A[k-gap] = A[k-gap], A[k]
+        k -= gap
+    </pre>
+  </tt>
+</body>

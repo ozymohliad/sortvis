@@ -1,27 +1,27 @@
 <meta charset="UTF-8">
 
 <body>
-	<p style="font-size: 14pt;">Властивості:</p>
+	<p style="font-size: 14pt;">Properties:</p>
 	<ul>
-		<li>Найгірша швидкодія: <em>О(n<sup> 2</sup>)</em> порівнянь і обмінів</li>
-		<li>Найкраща швидкодія: <em>О(n)</em> порівнянь і <em>O(1)</em> обмінів</li>
-		<li>Середня швидкодія: <em>О(n<sup> 2</sup>)</em> порівнянь і обмінів</li>
-		<li>Найгірша просторова складність: <em>О(n)</em> загальна і <em>O(1)</em> додаткова</li>
+		<li>Worst-case performance: <em>О(n<sup> 2</sup>)</em> comparisons and swaps</li>
+		<li>Best-case performance: <em>О(n)</em> comparisons and <em>O(1)</em> swaps</li>
+		<li>Average performance: <em>О(n<sup> 2</sup>)</em> comparisons and swaps</li>
+		<li>Worst-case space complexity: <em>О(n)</em> total and <em>O(1)</em> auxiliary</li>
 	</ul>
 
-	<p style="font-size: 14pt;">Код:</p>
+	<p style="font-size: 14pt;">Code:</p>
 	<tt style="color: blue">
 		<pre>
-length = len(A)
+n = len(A)
 <i style="color: green;">while</i> <i style="color: red;">True</i>:
   swapped = <i style="color: red;">False</i>
-  <i style="color: green;">for</i> i <i style="color: green;">in</i> range(length - 1):
+  <i style="color: green;">for</i> i <i style="color: green;">in</i> range(n - 1):
     <i style="color: green;">if</i> (A[i] > A[i+1]):
       A[i], A[i+1] = A[i+1], A[i]
       swapped = <i style="color: red;">True</i>
-  <i style="color: green;">if</i> not swapped:
+  <i style="color: green;">if</i> <i style="color: red;">not</i> swapped:
     <i style="color: green;">break</i>
-  length -= 1
+  n -= 1
 		</pre>
 	</tt>
 </body>

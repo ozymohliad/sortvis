@@ -1,21 +1,21 @@
 <meta charset="UTF-8">
 
 <body>
-	<p style="font-size: 14pt;">Властивості:</p>
+	<p style="font-size: 14pt;">Properties:</p>
 	<ul>
-		<li>Найгірша швидкодія: <em>О(n<sup> 2</sup>)</em> порівнянь і <em>О(n)</em> обмінів</li>
-		<li>Найкраща швидкодія: <em>О(n<sup> 2</sup>)</em> порівнянь і <em>О(n)</em> обмінів</li>
-		<li>Середня швидкодія: <em>О(n<sup> 2</sup>)</em> порівнянь і <em>О(n)</em> обмінів</li>
-		<li>Найгірша просторова складність: <em>О(n)</em> загальна і <em>O(1)</em> додаткова</li>
+		<li>Worst-case performance: <em>О(n<sup> 2</sup>)</em> comparisons and <em>О(n)</em> swaps</li>
+		<li>Best-case performance: <em>О(n<sup> 2</sup>)</em> comparisons and <em>О(n)</em> swaps</li>
+		<li>Average performance: <em>О(n<sup> 2</sup>)</em> comparisons and <em>О(n)</em> swaps</li>
+		<li>Worst-case space complexity: <em>О(n)</em> total and <em>O(1)</em> auxiliary</li>
 	</ul>
 
-	<p style="font-size: 14pt;">Код:</p>
+	<p style="font-size: 14pt;">Code:</p>
 	<tt style="color: blue">
 		<pre>
-length = len(A)
-<i style="color: green">for</i> i <i style="color: green">in</i> range(length - 1):
+n = len(A)
+<i style="color: green">for</i> i <i style="color: green">in</i> range(n - 1):
   min = i
-  <i style="color: green">for</i> j <i style="color: green">in</i> range(i+1, length):
+  <i style="color: green">for</i> j <i style="color: green">in</i> range(i+1, n):
     <i style="color: green">for</i> A[min] > A[j]:
       min = j
   <i style="color: green">for</i> min != i:

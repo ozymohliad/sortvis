@@ -75,19 +75,6 @@ class Controller(QObject):
 		subdiv = math.ceil(elements / 2)
 		self.init.emit()
 
-	def genBrowser(self):
-		global algBox, browser
-		i = algBox.currentIndex()
-
-		if i == 0:
-			browser.setSource(QUrl("doc/bubble.html"))
-		elif i == 1:
-			browser.setSource(QUrl("doc/insertion.html"))
-		elif i == 2:
-			browser.setSource(QUrl("doc/selection.html"))
-		elif i == 3:
-			browser.setSource(QUrl("doc/merge.html"))
-
 	def setSortMode(self, x):
 		self.sortMode = x
 		startButton.setVisible(x)
@@ -131,16 +118,25 @@ class Controller(QObject):
 
 		if i == 0:
 			browser.setSource(QUrl("doc/bubble.html"))
-			title.setText("Сортування Бульбашкою")
+			title.setText("Bubble Sort")
 		elif i == 1:
 			browser.setSource(QUrl("doc/insertion.html"))
-			title.setText("Сортування Вставкою")
+			title.setText("Insertion Sort")
 		elif i == 2:
 			browser.setSource(QUrl("doc/selection.html"))
-			title.setText("Сортування Вибором")
+			title.setText("Selection Sort")
 		elif i == 3:
 			browser.setSource(QUrl("doc/merge.html"))
-			title.setText("Сортування Злиттям")
+			title.setText("Merge Sort")
+		elif i == 4:
+			browser.setSource(QUrl("doc/shell.html"))
+			title.setText("Shell Sort")
+		elif i == 5:
+			browser.setSource(QUrl("doc/shaker.html"))
+			title.setText("Shaker Sort")
+		elif i == 6:
+			browser.setSource(QUrl("doc/comb.html"))
+			title.setText("Comb Sort")
 
 class Array(QObject):
 	def __init__(self, parent = None):
@@ -249,21 +245,25 @@ class Array(QObject):
 			i = algBox.currentIndex()
 			if i == 0:
 				self.sortBubble()
-			if i == 1:
+			elif i == 1:
 				self.sortInsert()
-			if i == 2:
+			elif i == 2:
 				self.sortSelect()
-			if i == 3:
+			elif i == 3:
 				self.sortMerge(list[0][:], 0)
-			if i == 4:
+			elif i == 4:
 				self.sortShell()
+			elif i == 5:
+				self.sortShaker()
+			elif i == 6:
+				self.sortComb()
 
 			self.imsorted.emit(True)
 
 	def sortBubble(self):
 		global list, colors
-		els = len(list[0])
-		current = list[0][:]
+		els = len(list[-1])
+		current = list[-1][:]
 
 		toappend = []
 		while True:
@@ -286,11 +286,10 @@ class Array(QObject):
 		list.append(current[:])
 		colors.append(toappend[:])
 
-
 	def sortInsert(self):
-		global list
-		els = len(list[0])
-		current = list[0][:]
+		global list, colors
+		els = len(list[-1])
+		current = list[-1][:]
 
 		for i in range(1, els):
 			j = i
@@ -308,9 +307,9 @@ class Array(QObject):
 			colors[-1].append(i)		
 
 	def sortSelect(self):
-		global list
-		els = len(list[0])
-		current = list[0][:]
+		global list, colors
+		els = len(list[-1])
+		current = list[-1][:]
 
 		toappend = []
 		for i in range(els):
@@ -371,21 +370,84 @@ class Array(QObject):
 
 	def sortShell(self):
 		global list, colors
-		current = list[0][:]
+		current = list[-1][:]
 		n = len(current)
 		gaps = self.genPratt(n)
 		gaps = gaps[::-1]
 
 		for gap in gaps:
-			for i in range(gap, n):
-				tmp = current[i]
-				j = i
-				
-				while j >= gap and current[j - gap] > tmp:
-					current[j] = current[j - gap]
-					list.append(current[:])
-					j -= gap
-				current[j] = tmp
+			for i in range(gap):
+				toappend = []
+				for j in range(i, n, gap):
+					toappend.append(j)
+				for j in range(i+gap, n, gap):
+					k = j
+					while k > i and current[k] < current[k-gap]:
+						current[k], current[k-gap] = current[k-gap], current[k]
+						list.append(current[:])
+						colors.append(toappend[:])
+						k -= gap
+
+	def sortShaker(self):
+		global list, colors
+		current = list[-1][:]
+		top = len(list[-1])
+		bottom = 0
+
+		toappend = []
+		while True:
+			swapped = False
+			list.append(current[:])
+			colors.append(toappend + [bottom])
+			for i in range(bottom, top-1):
+				if current[i] > current[i+1]:
+					current[i], current[i+1] = current[i+1], current[i]
+					swapped = True
+				list.append(current[:])
+				colors.append(toappend + [i+1])
+			toappend.append(top - 1)
+
+			if not swapped:
+				break
+
+			top -= 1
+
+			list.append(current[:])
+			colors.append(toappend + [top-1])
+			for i in range(top-1, bottom, -1):
+				if current[i] < current[i-1]:
+					current[i], current[i-1] = current[i-1], current[i]
+					swapped = True
+				list.append(current[:])
+				colors.append(toappend + [i-1])
+			toappend.append(bottom)
+
+			if not swapped:
+				break
+
+			bottom += 1
+
+		list.append(current[:])
+		colors.append([])
+		for i in range(len(list[-1])):
+			colors[-1].append(i)
+
+	def sortComb(self):
+		global list, colors
+		current = list[-1][:]
+		n = len(list[-1])
+		k = 1.3
+		gap = int(n / k)
+
+		while gap > 1:
+			for i in range(n - gap):
+				if current[i] > current[i + gap]:
+					current[i], current[i+gap] = current[i+gap], current[i]
+				list.append(current[:])
+				colors.append([i, i+gap])
+			gap = int(gap / k)
+		self.sortBubble()
+
 
 	def stepRight(self):
 		global list
@@ -429,7 +491,7 @@ styles = open('stylesheet.qss')
 app.setStyleSheet(styles.read())
 window = QWidget()
 window.setFixedSize(QSize(w, h))
-window.setWindowTitle("Алгоритми Сортування")
+window.setWindowTitle("Sorting Algorithms")
 font = QFont("Ubuntu", 12)
 
 # Instantiation
@@ -489,8 +551,8 @@ endButton.setIconSize(QSize(2*m, 2*m))
 endButton.clicked.connect(array.toEnd)
 
 # Options
-delLabel = QLabel("Затримка:", window)
-delLabel.setGeometry(525, 0, 100, tm)
+delLabel = QLabel("Delay:", window)
+delLabel.setGeometry(550, 0, 100, tm)
 delLabel.setAlignment(Qt.AlignLeft|Qt.AlignVCenter)
 delLabel.setFont(font)
 delSlider = QSlider(window)
@@ -501,7 +563,7 @@ delSlider.setMaximum(500)
 delSlider.setSliderPosition(delay)
 delSlider.valueChanged.connect(array.timer.setInterval)
 
-elsLabel = QLabel("Кількість елементів:", window)
+elsLabel = QLabel("Number of elements:", window)
 elsLabel.setGeometry(250, 0, 155, tm)
 elsLabel.setAlignment(Qt.AlignLeft|Qt.AlignVCenter)
 elsLabel.setFont(font)
@@ -514,31 +576,33 @@ elsBox.setAlignment(Qt.AlignHCenter)
 elsBox.setFont(font)
 elsBox.valueChanged.connect(controller.genElements)
 
-typeLabel = QLabel("Тип масиву:", window)
+typeLabel = QLabel("Array type:", window)
 typeLabel.setGeometry(550, 0, 100, tm)
 typeLabel.setAlignment(Qt.AlignLeft|Qt.AlignVCenter)
 typeLabel.setFont(font)
 typeBox = QComboBox(window)
 typeBox.setFont(font)
 typeBox.setGeometry(650, 10, 200, tm - 20)
-typeBox.addItem("Випадковий")
-typeBox.addItem("Обернений")
-typeBox.addItem("Майже відсортований")
-typeBox.addItem("Декілька унікальних")
+typeBox.addItem("Random")
+typeBox.addItem("Inversed")
+typeBox.addItem("Nearly sorted")
+typeBox.addItem("Few unique")
 typeBox.currentIndexChanged.connect(array.init)
 
-algLabel = QLabel("Алгоритм:", window)
+algLabel = QLabel("Algorithm:", window)
 algLabel.setGeometry(885, 0, 100, tm)
 algLabel.setAlignment(Qt.AlignLeft|Qt.AlignVCenter)
 algLabel.setFont(font)
 algBox = QComboBox(window)
 algBox.setFont(font)
 algBox.setGeometry(1000 - m, 10, 200, tm - 20)
-algBox.addItem("Бульбашкою")
-algBox.addItem("Вставкою")
-algBox.addItem("Вибором")
-algBox.addItem("Злиттям")
-algBox.addItem("Шелла")
+algBox.addItem("Bubble")
+algBox.addItem("Insertion")
+algBox.addItem("Selection")
+algBox.addItem("Merge")
+algBox.addItem("Shell")
+algBox.addItem("Shaker")
+algBox.addItem("Comb")
 algBox.setCurrentIndex(0)
 algBox.currentIndexChanged.connect(array.clear)
 algBox.currentIndexChanged.connect(controller.genBrowser)

@@ -1,0 +1,39 @@
+<meta charset="UTF-8">
+
+<body>
+	<p style="font-size: 14pt;">Properties:</p>
+	<ul>
+		<li>Worst-case performance: <em>О(n<sup> 2</sup>)</em> comparisons and swaps</li>
+		<li>Best-case performance: <em>О(n)</em> comparisons and <em>O(1)</em> swaps</li>
+		<li>Average performance: <em>О(n<sup> 2</sup>)</em> comparisons and swaps</li>
+		<li>Worst-case space complexity: <em>О(n)</em> total and <em>O(1)</em> auxiliary</li>
+	</ul>
+
+	  <p style="font-size: 14pt;">Code:</p>
+  <tt style="color: blue">
+    <pre>
+n = len(A)
+s = 0
+
+<i style="color: green;">while</i> <i style="red: green;">True</i>:
+  swapped = <i style="color: red;">False</i>
+  <i style="color: green;">for</i> i <i style="color: green;">in</i> range(s, n-1):
+    <i style="color: green;">if</i> A[i] > A[i+1]:
+      A[i], A[i+1], = A[i+1], A[i]
+      swapped = <i style="color: red;">True</i>
+
+  if <i style="color: red;">not</i> swapped:
+    <i style="color: green;">break</i>
+  n -= 1
+
+  <i style="color: green;">for</i> i <i style="color: green;">in</i> range(n-1, s, -1):
+    <i style="color: green;">if</i> A[i] &#60; A[i-1]:
+      A[i], A[i-1], = A[i-1], A[i]
+      swapped = <i style="color: red;">True</i>
+
+  if <i style="color: red;">not</i> swapped:
+    <i style="color: green;">break</i>
+  s += 1
+    </pre>
+  </tt>
+</body>
